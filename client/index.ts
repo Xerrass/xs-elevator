@@ -5,7 +5,6 @@ import ViewModel from '@AthenaClient/models/viewModel';
 
 import { ELEVATOR_EVENTS } from '../shared/enum/events';
 import { IElevator, IElevatorStop } from '../shared/interfaces/IElevator';
-import { sendNotification } from '@AthenaPlugins/fnky-notifcations/client';
 
 const ComponentName = 'XSElevator';
 let elevator: IElevator;
@@ -22,7 +21,7 @@ class InternalFunctions implements ViewModel {
 
         // Must always be called first if you want to hide HUD.
         AthenaClient.webview.ready(ComponentName, InternalFunctions.ready);
-        AthenaClient.webview.on(ELEVATOR_EVENTS.VIEW_TELEPORT, InternalFunctions.teleport)
+        AthenaClient.webview.on(ELEVATOR_EVENTS.VIEW_TELEPORT, InternalFunctions.teleport);
 
         AthenaClient.webview.openPages(ComponentName, true, InternalFunctions.close);
         AthenaClient.webview.focus();
@@ -54,17 +53,17 @@ class InternalFunctions implements ViewModel {
 
     static async teleport(spot: IElevatorStop) {
         if (spot.rot) {
-            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos, spot.rot)
+            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos, spot.rot);
 
         } else {
-            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos)
+            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos);
 
         }
         alt.toggleGameControls(true);
 
         AthenaClient.webview.unfocus();
         AthenaClient.webview.showCursor(false);
-        AthenaClient.webview.setOverlaysVisible(true)
+        AthenaClient.webview.setOverlaysVisible(true);
 
         alt.Player.local.isMenuOpen = false;
 
