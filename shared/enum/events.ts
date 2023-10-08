@@ -1,5 +1,3 @@
-import * as alt from 'alt-shared'
-
 export enum ELEVATOR_EVENTS {
     VIEW_OPEN = "xs-elevator:viewOpen",
     VIEW_CLOSE = "xs-elevator:viewClose",
