@@ -7,6 +7,5 @@ import { ElevatorFunctions } from './functions';
 
 const PLUGIN_NAME = 'xs-elevator';
 Athena.systems.plugins.registerPlugin(PLUGIN_NAME, async () => {
-    ElevatorFunctions.init()
-
+    ElevatorFunctions.init();
 });
