@@ -47,9 +47,29 @@ function teleport(elevatorStop) {
 }
 
 onMounted(() => {
-    WebViewEvents.on(ELEVATOR_EVENTS.VIEW_SETELEVATOR, setElevator)
-    //WebViewEvents.on(HOUSING_INTERACTIONS.TOGGLE_LOCK, this.toggleLock);
-    WebViewEvents.emitReady(ComponentName);
+    if ('alt' in window) {
+        WebViewEvents.on(ELEVATOR_EVENTS.VIEW_SETELEVATOR, setElevator)
+        //WebViewEvents.on(HOUSING_INTERACTIONS.TOGGLE_LOCK, this.toggleLock);
+        WebViewEvents.emitReady(ComponentName);
+    } else {
+        elevator.value = {
+            name: "Rockford Plaza",
+            isCarElevator: false,
+            elevatorStops: [
+                {
+                    name: "Hub",
+                    pos: { x: 0, y: 0, z: 0 },
+                    show: true
+                },
+                {
+                    name: "Ground Level",
+                    pos: { x: 0, y: 0, z: 0 },
+                    showmarker: false,
+                    show: true
+                }
+            ]
+        }
+    }
 })
 </script>
 
@@ -66,7 +86,6 @@ onMounted(() => {
 
 .elevator {
     width: 400px;
-    position: absolute;
     right: 0px;
     margin-right: 20px;
     margin-bottom: 60px;
@@ -74,20 +93,16 @@ onMounted(() => {
     margin: 10px;
     border: 2px;
     border-color: black;
-    border-radius: 2px;
+    border-radius: 6px;
     border-style: double;
-    background-image: url("/plugins/xs-elevator-background.jpg");
+    background-image: url("/plugins/images/xs-elevator/Background.jpg");
 }
 
-.spots {
-    border: 0px;
-}
 
 .spot-inner {
-    width: inherit;
     margin: 15px;
-    height: 200px;
-    background-image: url("/plugins/xs-elevator-elevatorPannel.png");
+    height: 100px;
+    background-image: url("/plugins/images/xs-elevator/Button.png");
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -106,28 +121,18 @@ onMounted(() => {
     font-size: 32px;
     color: black;
     font-weight: 700;
+    font-family: 'Times New Roman', Times, serif;
     border-radius: 40px;
     width: inherit;
     height: 50px;
-    padding-top: 65px;
+    padding-top: 20px;
     padding-right: 100px;
-}
-
-.img {
-    height: 150px;
-    overflow: hidden;
-    display: inline-block;
-}
-
-.img-header {
-    max-width: 200px;
-    max-height: 75px;
-    opacity: 0.7;
 }
 
 .header {
     font-size: 40px;
     text-align: center;
+    font-family: 'Times New Roman', Times, serif;
     margin: 5px;
     border-radius: 10px;
     border: 2px;
