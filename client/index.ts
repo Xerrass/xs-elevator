@@ -52,11 +52,12 @@ class InternalFunctions implements ViewModel {
     }
 
     static async teleport(spot: IElevatorStop) {
+        let vehicle = alt.Player.local.vehicle
         if (spot.rot) {
-            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos, spot.rot);
+            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos, vehicle, spot.rot);
 
         } else {
-            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos);
+            alt.emitServer(ELEVATOR_EVENTS.TELEPORT, spot.pos, vehicle);
 
         }
         alt.toggleGameControls(true);
