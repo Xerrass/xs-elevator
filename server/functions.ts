@@ -7,15 +7,17 @@ export class ElevatorFunctions {
     static init() {
         elevators.forEach((elevator) => {
             elevator.elevatorStops.forEach((stop) => {
-                let _isPlayerOnly, _scale, _range
+                let _isPlayerOnly, _scale, _range, _maxDistance
                 if (elevator.isCarElevator) {
                     _isPlayerOnly = false;
-                    _scale = new alt.Vector3(3, 3, 0)
+                    _scale = new alt.Vector3(3, 3, 0.2)
                     _range = 3
+                    _maxDistance = 8
                 } else {
                     _isPlayerOnly = true
-                    _scale = new alt.Vector3(1, 1, 0)
+                    _scale = new alt.Vector3(1, 1, 0.2)
                     _range = 1
+                    _maxDistance = 1.5
                 }
                 Athena.controllers.interaction.append({
                     position: { x: stop.pos.x, y: stop.pos.y, z: stop.pos.z - 1 },
@@ -61,10 +63,11 @@ export class ElevatorFunctions {
                 let showmarker = typeof stop.showmarker !== "undefined" ? stop.showmarker : (stop.showmarker = true)
                 if (showmarker) {
                     Athena.controllers.marker.append({
-                        color: new alt.RGBA(0, 113, 255),
+                        color: new alt.RGBA(0, 113, 255, 75),
                         pos: { x: stop.pos.x, y: stop.pos.y, z: stop.pos.z - 0.98 },
-                        type: 25,
-                        scale: _scale
+                        type: 1,
+                        scale: _scale,
+                        maxDistance: _maxDistance,
                     })
                 }
             })
@@ -75,7 +78,8 @@ export class ElevatorFunctions {
         Athena.player.emit.fadeScreenToBlack(player, 1000);
         alt.setTimeout(() => {
             Athena.player.safe.setPosition(player, targetCords.x, targetCords.y, targetCords.z);
-            if (typeof vehicle !== 'undefined') {
+            // if player is in Vehicle the vehicle can be rotated
+            if (vehicle != null) {
                 vehicle.rot = targetRot
             } else {
                 player.rot = targetRot
