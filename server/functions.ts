@@ -22,21 +22,21 @@ export class ElevatorFunctions {
                     isPlayerOnly: _isPlayerOnly,
                     range: _range,
                     async callback(player) {
-                        // Check if Stops have certain items or permissions to be accessed
+                        // Check for each Stop if it has an KeyItem or Permission set
                         for (let _stop of elevator.elevatorStops) {
 
-                            // TODO maybe needs a Fix as now the KEy Item takes Precedence and the permission is not checked
-                            if (_stop.keyItemName) {
-                                if (await Athena.player.inventory.has(player, _stop.keyItemName, 1)) {
-                                    _stop.show = true
-                                } else {
-                                    _stop.show = false
+                            // Check if keyitem or permission is set for this stop and show the stop if player has item or permission
+                            if (typeof _stop.keyItemName !== 'undefined' || typeof _stop.permission !== 'undefined') {
+                                _stop.show = false
+                                if (typeof _stop.keyItemName !== 'undefined') {
+                                    if (await Athena.player.inventory.has(player, _stop.keyItemName, 1)) {
+                                        _stop.show = true
+                                    }
                                 }
-                            } else if (_stop.permission) {
-                                if (Athena.player.permission.hasPermission(player, _stop.permission) || Athena.player.permission.hasAccountPermission(player, _stop.permission)) {
-                                    _stop.show = true
-                                } else {
-                                    _stop.show = false
+                                if (typeof _stop.permission !== 'undefined') {
+                                    if (Athena.player.permission.hasPermission(player, _stop.permission) || Athena.player.permission.hasAccountPermission(player, _stop.permission)) {
+                                        _stop.show = true
+                                    }
                                 }
                             } else {
                                 _stop.show = true
@@ -71,11 +71,15 @@ export class ElevatorFunctions {
         })
     }
 
-    static teleport(player: alt.Player, targetCords: alt.IVector3, targetRot: alt.Vector3 = new alt.Vector3(0, 0, 0)) {
-        Athena.player.emit.fadeScreenToBlack(player, 1000)
+    static teleport(player: alt.Player, targetCords: alt.IVector3, vehicle: alt.Vehicle, targetRot: alt.Vector3 = new alt.Vector3(0, 0, 0)) {
+        Athena.player.emit.fadeScreenToBlack(player, 1000);
         alt.setTimeout(() => {
             Athena.player.safe.setPosition(player, targetCords.x, targetCords.y, targetCords.z);
-            player.rot = targetRot
+            if (typeof vehicle !== 'undefined') {
+                vehicle.rot = targetRot
+            } else {
+                player.rot = targetRot
+            }
             alt.setTimeout(() => {
                 Athena.player.emit.fadeScreenFromBlack(player, 500);
             }, 100)
