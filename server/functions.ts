@@ -2,6 +2,7 @@ import * as alt from 'alt-server';
 import * as Athena from '@AthenaServer/api';
 import { elevators } from '../shared/config';
 import { ELEVATOR_EVENTS } from '../shared/enum/events';
+import { NotifyController } from '@AthenaPlugins/fnky-notifcations/server';
 
 export class ElevatorFunctions {
     static init() {
@@ -75,6 +76,13 @@ export class ElevatorFunctions {
     }
 
     static teleport(player: alt.Player, targetCords: alt.IVector3, vehicle: alt.Vehicle, targetRot: alt.Vector3 = new alt.Vector3(0, 0, 0)) {
+        if (vehicle != null)
+            if (Athena.utility.vector.distance(Athena.utility.closest.getClosestVehicle(targetCords).pos, targetCords) < 5) {
+                NotifyController.send(player, 3, 10, "Fahrstuhl", "Ausgang ist Blockiert")
+                return
+            }
+
+
         Athena.player.emit.fadeScreenToBlack(player, 1000);
         alt.setTimeout(() => {
             Athena.player.safe.setPosition(player, targetCords.x, targetCords.y, targetCords.z);
