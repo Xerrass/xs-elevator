@@ -10,6 +10,9 @@ Does the Following:
 
 Check out shared/config.ts and add them there
 
+## Dependencys
+[fnky-notifications](https://github.com/fnkybot/fnky-notifcations)
+
 ## Installation
 
 1. Open a command prompt in your main Athena Directory.
