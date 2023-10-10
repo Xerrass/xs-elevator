@@ -27,7 +27,7 @@ cd src/core/plugins
 **HTTPS**
 
 ```
-git clone https://github.com/Xerrass/xs-vehicles.git
+git clone https://github.com/Xerrass/xs-elevator.git
 ```
 
 4. Start the Server and enjoy your new Elevator System
