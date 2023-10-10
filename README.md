@@ -30,4 +30,4 @@ cd src/core/plugins
 git clone https://github.com/Xerrass/xs-vehicles.git
 ```
 
-4. Start the Server and enjoy your syncced Weather
+4. Start the Server and enjoy your new Elevator System
